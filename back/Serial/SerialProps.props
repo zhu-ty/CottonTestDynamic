@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <IncludePath>..\Includes;$(IncludePath)</IncludePath>
+    <LibraryPath>..\Libraries;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <Link>
+      <AdditionalDependencies>EbInstallerLib.lib;EbInstallerLib_Dbg.lib;EbInstallerLib64.lib;EbInstallerLib64_Dbg.lib;EbUtilsLib.lib;EbUtilsLib_Dbg.lib;EbUtilsLib64.lib;EbUtilsLib64_Dbg.lib;PtConvertersLib.lib;PtConvertersLib_Dbg.lib;PtConvertersLib64.lib;PtConvertersLib64_Dbg.lib;PtUtilsLib.lib;PtUtilsLib_Dbg.lib;PtUtilsLib64.lib;PtUtilsLib64_Dbg.lib;PvAppUtils.lib;PvAppUtils_Dbg.lib;PvAppUtils64.lib;PvAppUtils64_Dbg.lib;PvBase.lib;PvBase_Dbg.lib;PvBase64.lib;PvBase64_Dbg.lib;PvBuffer.lib;PvBuffer_Dbg.lib;PvBuffer64.lib;PvBuffer64_Dbg.lib;PvDevice.lib;PvDevice_Dbg.lib;PvDevice64.lib;PvDevice64_Dbg.lib;PvGenICam.lib;PvGenICam_Dbg.lib;PvGenICam64.lib;PvGenICam64_Dbg.lib;PvGUI_VC10.lib;PvGUI_VC10_Dbg.lib;PvGUI_VC11.lib;PvGUI_VC11_Dbg.lib;PvGUI_VC8.lib;PvGUI_VC8_Dbg.lib;PvGUI_VC9.lib;PvGUI_VC9_Dbg.lib;PvGUI64_VC10.lib;PvGUI64_VC10_Dbg.lib;PvGUI64_VC11.lib;PvGUI64_VC11_Dbg.lib;PvGUI64_VC8.lib;PvGUI64_VC8_Dbg.lib;PvGUI64_VC9.lib;PvGUI64_VC9_Dbg.lib;PvPersistence.lib;PvPersistence_Dbg.lib;PvPersistence64.lib;PvPersistence64_Dbg.lib;PvSerial.lib;PvSerial_Dbg.lib;PvSerial64.lib;PvSerial64_Dbg.lib;PvStream.lib;PvStream_Dbg.lib;PvStream64.lib;PvStream64_Dbg.lib;PvTransmitter.lib;PvTransmitter_Dbg.lib;PvTransmitter64.lib;PvTransmitter64_Dbg.lib;PvVirtualDevice.lib;PvVirtualDevice_Dbg.lib;PvVirtualDevice64.lib;PvVirtualDevice64_Dbg.lib;SimpleImagingLib.lib;SimpleImagingLib_Dbg.lib;SimpleImagingLib64.lib;SimpleImagingLib64_Dbg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <UndefinePreprocessorDefinitions>
+      </UndefinePreprocessorDefinitions>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>copy $(OutputPath)..\Dlls\*.dll $(OutputPath)
+IF "$(ConfigurationName)"=="Release" (
+IF NOT EXIST $(ProjectDir)..\..\..\Release\Dynamic\Server\ (
+MD $(ProjectDir)..\..\..\Release\Dynamic\Server\
+)
+)
+IF "$(ConfigurationName)"=="Release" (copy $(OutputPath)*.exe $(ProjectDir)..\..\..\Release\Dynamic\Server\)
+IF "$(ConfigurationName)"=="Release" (copy $(OutputPath)*.dll $(ProjectDir)..\..\..\Release\Dynamic\Server\)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>

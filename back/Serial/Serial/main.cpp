@@ -8,7 +8,6 @@
 #include<PvPixelType.h>
 #include<queue>
 #include<vector>
-#include <time.h>
 
 uint cap_num = 0;
 std::shared_ptr<mutex> mMutex;
@@ -25,17 +24,13 @@ int main()
 	char *pszCurrTime = (char*)malloc(sizeof(char) * 30);
 	memset(pszCurrTime, 0, sizeof(char) * 30);
 
-	time_t now;
-	time(&now);
-	strftime(pszCurrTime, 20, "%Y_%m_%d_%H_%M_%S.txt", localtime(&now));
-	out = fopen(pszCurrTime, "w");
-	free(pszCurrTime);
+	out = fopen("data.txt", "w");
+	
 	std::shared_ptr<CMvGevSource> mCamera;
 
 	mCamera.reset(new CMvGevSource());
 	mMutex.reset(new mutex());
 	data_pack.reset(new RawDataPack());
-	data_pack->avg = 100;
 #ifdef CAMERA_MODE_ENABLE
 
 	if (mCamera->Open(NULL, NULL, 0))
@@ -99,8 +94,8 @@ int CapCallBack(PvImage* pData, void* pUserData)
 				data_temp.push_back(val);
 				fprintf(out, "%d ", val);
 				mMutex->lock();
-				int LEN = data_pack->data_len;
-				int AVG = data_pack->avg;
+				uint LEN = data_pack->data_len;
+				uint AVG = data_pack->avg;
 				mMutex->unlock();
 				if (data_temp.size() >= LEN)//recording end
 				{
@@ -111,6 +106,7 @@ int CapCallBack(PvImage* pData, void* pUserData)
 						data_queue.erase(data_queue.begin());
 					}
 					data_queue.push_back(data_temp);
+					data_temp.clear();
 					//re-calculate the average
 					if (data_queue.size() >= AVG)//enough data
 					{

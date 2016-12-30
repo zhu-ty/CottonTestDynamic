@@ -16,7 +16,7 @@ const int DATA_HEIGHT = 100;
 struct RawDataPack
 {
 	uint avg = 10;
-	uint data_len = 400;
+	uint data_len = 20000;
 	//std::queue<std::vector<unsigned short>> data_queue;
 	std::vector<ushort> data;
 	ushort threshold = 4000;

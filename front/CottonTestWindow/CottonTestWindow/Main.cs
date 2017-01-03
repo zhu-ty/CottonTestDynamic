@@ -66,26 +66,34 @@ namespace CottonTestWindowDynamic
             {
                 if (ButtonStartStop.Text == "开始")
                 {
+                    TextFre.ReadOnly = true;
                     TimerData.Interval = (int)uint.Parse(TextFre.Text) * 1000;
-                    TimerData.Enabled = true;
-                    TimerTemperature.Enabled = true;
+                    
                     TextRevserved1.ReadOnly = true;
                     TextRevserved2.ReadOnly = true;
-                    TextFre.ReadOnly = true;
+
                     textBoxSamp.ReadOnly = true;
                     checkBoxSamp.Enabled = false;
+
                     ButtonStartStop.Text = "停止";
+
+                    TimerData.Enabled = true;
+                    TimerTemperature.Enabled = true;
                 }
                 else
                 {
-                    TimerData.Enabled = false;
-                    TimerTemperature.Enabled = false;
+                    TextFre.ReadOnly = false;
+
                     TextRevserved1.ReadOnly = false;
                     TextRevserved2.ReadOnly = false;
-                    TextFre.ReadOnly = false;
+                    
                     textBoxSamp.ReadOnly = false;
                     checkBoxSamp.Enabled = true;
+
                     ButtonStartStop.Text = "开始";
+
+                    TimerData.Enabled = false;
+                    TimerTemperature.Enabled = false;
                 }
             }
             catch (Exception ex)

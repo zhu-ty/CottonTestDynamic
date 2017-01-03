@@ -83,6 +83,7 @@ int CapCallBack(PvImage* pData, void* pUserData)
 			printf("0x%02x ", *(lDataPtr + i));
 		printf("\n");
 	}
+	//TODO:可以考虑在C++层做好数据抽样或平均
 	for (int i = 0; i < DATA_HEIGHT; i++)
 	{
 		for (int j = 0; j < DATA_WIDTH; j++)

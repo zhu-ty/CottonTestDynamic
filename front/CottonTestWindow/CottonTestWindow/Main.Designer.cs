@@ -933,7 +933,7 @@
             this.textBoxLEN.Name = "textBoxLEN";
             this.textBoxLEN.Size = new System.Drawing.Size(101, 22);
             this.textBoxLEN.TabIndex = 94;
-            this.textBoxLEN.Text = "200000";
+            this.textBoxLEN.Text = "20000";
             // 
             // label30
             // 

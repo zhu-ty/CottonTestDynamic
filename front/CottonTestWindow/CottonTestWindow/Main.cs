@@ -72,6 +72,8 @@ namespace CottonTestWindowDynamic
                     TextRevserved1.ReadOnly = true;
                     TextRevserved2.ReadOnly = true;
                     TextFre.ReadOnly = true;
+                    textBoxSamp.ReadOnly = true;
+                    checkBoxSamp.Enabled = false;
                     ButtonStartStop.Text = "停止";
                 }
                 else
@@ -81,6 +83,8 @@ namespace CottonTestWindowDynamic
                     TextRevserved1.ReadOnly = false;
                     TextRevserved2.ReadOnly = false;
                     TextFre.ReadOnly = false;
+                    textBoxSamp.ReadOnly = false;
+                    checkBoxSamp.Enabled = true;
                     ButtonStartStop.Text = "开始";
                 }
             }
@@ -156,12 +160,18 @@ namespace CottonTestWindowDynamic
         {
             try
             {
-                var data = core.GetLastAvgData();
                 string s = "";
-                for (int i = 0; i < data.Count / 2; i++)
+                //var data = core.GetLastAvgData();
+                //for (int i = 0; i < data.Count / 2; i++)
+                //{
+                //    s += data[i * 2].ToString() + "," + data[i * 2 + 1].ToString() + "," +
+                //        ((int)data[i * 2] - (int)data[i * 2 + 1]).ToString() + "\r\n";
+                //}
+                var data2 = core.GetLastAvgDataExtra(checkBoxSamp.Checked ? "avg" : "samp", int.Parse(textBoxSamp.Text));
+                for (int i = 0; i < data2.Value.Count; i++)
                 {
-                    s += data[i * 2].ToString() + "," + data[i * 2 + 1].ToString() + "," +
-                        ((int)data[i * 2] - (int)data[i * 2 + 1]).ToString() + "\r\n";
+                    s += data2.Key[i].ToString() + "," + data2.Value[i].ToString() + "," +
+                        ((int)data2.Key[i] - (int)data2.Value[i]).ToString() + "\r\n";
                 }
                 textBoxInfo.Text = s;
             }

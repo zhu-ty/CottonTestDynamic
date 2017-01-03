@@ -287,6 +287,7 @@ namespace CottonTestCoreDynamic
             return;
         }
 
+        //读取配置文件
         public void read_config(string file)
         {
             FileStream fs = new FileStream(file, FileMode.Open);
@@ -660,6 +661,10 @@ namespace CottonTestCoreDynamic
             return BitConverter.ToUInt32(re.data, 4);
         }
 
+        /// <summary>
+        /// 获得上一次C++做好的平均数
+        /// </summary>
+        /// <returns></returns>
         public List<short> GetLastAvgData()
         {
             if (!connected)
@@ -676,6 +681,44 @@ namespace CottonTestCoreDynamic
             for (int i = 0; i < re.extra_data.Count / 2; i++)
             {
                 ret.Add(BitConverter.ToInt16(array, i * 2));
+            }
+            return ret;
+        }
+
+        /// <summary>
+        /// 获得上一次C++做好的平均数并做横向抽点/平均
+        /// </summary>
+        /// <param name="method">"avg":平均,"samp":抽样</param>
+        /// <param name="times">[平均/抽样]的[次数/间隔]</param>
+        /// <returns></returns>
+        public KeyValuePair<List<short>, List<short>> GetLastAvgDataExtra(string method = "avg", int times = 100)
+        {
+            var data = GetLastAvgData();
+            KeyValuePair<List<short>, List<short>> ret = 
+                new KeyValuePair<List<short>, List<short>>(new List<short>(), new List<short>());
+            uint temp1 = 0, temp2 = 0;
+            for (int i = 0; i < data.Count / 2; i++)
+            {
+                if (method == "avg")
+                {
+                    temp1 += (uint)data[i * 2];
+                    temp2 += (uint)data[i * 2 + 1];
+                }
+                if ((i + 1) % times == 0)
+                {
+                    if (method == "avg")
+                    {
+                        ret.Key.Add((short)(temp1 / times));
+                        ret.Value.Add((short)(temp2 / times));
+                        temp1 = 0;
+                        temp2 = 0;
+                    }
+                    else if (method == "samp")
+                    {
+                        ret.Key.Add(data[i * 2]);
+                        ret.Key.Add(data[i * 2 + 1]);
+                    }
+                }
             }
             return ret;
         }

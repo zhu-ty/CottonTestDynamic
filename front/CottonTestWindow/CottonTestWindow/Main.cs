@@ -66,10 +66,12 @@ namespace CottonTestWindowDynamic
             {
                 if (ButtonStartStop.Text == "开始")
                 {
+                    TimerData.Interval = (int)uint.Parse(TextFre.Text) * 1000;
                     TimerData.Enabled = true;
                     TimerTemperature.Enabled = true;
                     TextRevserved1.ReadOnly = true;
                     TextRevserved2.ReadOnly = true;
+                    TextFre.ReadOnly = true;
                     ButtonStartStop.Text = "停止";
                 }
                 else
@@ -78,6 +80,7 @@ namespace CottonTestWindowDynamic
                     TimerTemperature.Enabled = false;
                     TextRevserved1.ReadOnly = false;
                     TextRevserved2.ReadOnly = false;
+                    TextFre.ReadOnly = false;
                     ButtonStartStop.Text = "开始";
                 }
             }
@@ -255,6 +258,9 @@ namespace CottonTestWindowDynamic
             try
             {
                 textBoxAVG.Text = core.GetSetAvg(true ,uint.Parse(textBoxAVG.Text)).ToString();
+                textBoxTHR.Text = core.GetSetThr(true, uint.Parse(textBoxTHR.Text)).ToString();
+                textBoxCMP.Text = core.GetSetCmp(true, uint.Parse(textBoxCMP.Text)).ToString();
+                textBoxLEN.Text = core.GetSetLen(true, uint.Parse(textBoxLEN.Text)).ToString();
             }
             catch (Exception ex)
             {
@@ -267,6 +273,9 @@ namespace CottonTestWindowDynamic
             try
             {
                 textBoxAVG.Text = core.GetSetAvg().ToString();
+                textBoxTHR.Text = core.GetSetThr().ToString();
+                textBoxCMP.Text = core.GetSetCmp().ToString();
+                textBoxLEN.Text = core.GetSetLen().ToString();
             }
             catch (Exception ex)
             {
@@ -438,6 +447,8 @@ namespace CottonTestWindowDynamic
     public class ConsoleHelper : TextWriter
     {
 
+        int count = 0;
+
         private System.Windows.Forms.TextBox _textBox { set; get; }//如果是wpf的也可以换做wpf的输入框
 
         public ConsoleHelper(System.Windows.Forms.TextBox textBox)
@@ -449,19 +460,21 @@ namespace CottonTestWindowDynamic
         public override void Write(string value)
         {
             if (_textBox.IsHandleCreated)
-                _textBox.BeginInvoke(new ThreadStart(() => _textBox.AppendText(value + " ")));
+                _textBox.BeginInvoke(new ThreadStart(() =>
+                {
+                    _textBox.AppendText("[" + count.ToString() + "]" + value + " ");
+                    count++;
+                }));
         }
 
         public override void WriteLine(string value)
         {
             if (_textBox.IsHandleCreated)
-                _textBox.BeginInvoke(new ThreadStart(() => {
-                    //if (_textBox.TextLength >= 2)
-                        //_textBox.Text = _textBox.Text.Substring(0, _textBox.TextLength - 2);
-
-                    _textBox.AppendText(value + "\r\n");
-                    //_textBox.AppendText("<-");
-                    }));
+                _textBox.BeginInvoke(new ThreadStart(() =>
+                {
+                    _textBox.AppendText("[" + count.ToString() + "]" + value + "\r\n");
+                    count++;
+                }));
         }
 
         public override Encoding Encoding//这里要注意,重写wirte必须也要重写编码类型

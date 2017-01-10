@@ -565,7 +565,7 @@
             this.textBoxAVG.Name = "textBoxAVG";
             this.textBoxAVG.Size = new System.Drawing.Size(78, 22);
             this.textBoxAVG.TabIndex = 59;
-            this.textBoxAVG.Text = "100";
+            this.textBoxAVG.Text = "10";
             // 
             // button_avg_write
             // 

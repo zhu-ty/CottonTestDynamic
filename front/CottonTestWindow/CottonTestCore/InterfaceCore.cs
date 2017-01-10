@@ -554,7 +554,7 @@ namespace CottonTestCoreDynamic
         /// </summary>
         /// <param name="avg"></param>
         /// <returns></returns>
-        public uint GetSetAvg(bool set = false, uint avg = 100)
+        public uint GetSetAvg(bool set = false, uint avg = 10)
         {
             if (!connected)
                 throw new Exception("服务器未连接");

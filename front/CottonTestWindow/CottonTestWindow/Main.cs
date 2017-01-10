@@ -169,13 +169,26 @@ namespace CottonTestWindowDynamic
             try
             {
                 string s = "";
+
                 //var data = core.GetLastAvgData();
                 //for (int i = 0; i < data.Count / 2; i++)
                 //{
                 //    s += data[i * 2].ToString() + "," + data[i * 2 + 1].ToString() + "," +
                 //        ((int)data[i * 2] - (int)data[i * 2 + 1]).ToString() + "\r\n";
                 //}
+
                 var data2 = core.GetLastAvgDataExtra(checkBoxSamp.Checked ? "avg" : "samp", int.Parse(textBoxSamp.Text));
+
+                //for (int i = 0; i < data2.Value.Count - 1; i++)
+                //{
+                //    s += data2.Key[i].ToString() + "," + data2.Value[i].ToString() + "," +
+                //        ((int)data2.Key[i] - (int)data2.Value[i]).ToString() + "\r\n";
+                //}
+                //textBoxInfo.Text = s;
+                ////这么做是为了自适应画图的问题
+                //textBoxInfo.Text += data2.Key[data2.Value.Count - 1] + "," + data2.Value[data2.Value.Count - 1].ToString() + "," +
+                //        ((int)data2.Key[data2.Value.Count - 1] - (int)data2.Value[data2.Value.Count - 1]).ToString() + "\r\n";
+
                 for (int i = 0; i < data2.Value.Count; i++)
                 {
                     s += data2.Key[i].ToString() + "," + data2.Value[i].ToString() + "," +
@@ -401,6 +414,8 @@ namespace CottonTestWindowDynamic
                 x2 = new Series("Sensor2");
                 x3 = new Series("Sensor1 - Sensor2");
                 int count = 0;
+                double chart1_max = 0, chart1_min = InterfaceCore.PHOTODIODE.AD_MAX,
+                    chart2_max = 0, chart2_min = InterfaceCore.PHOTODIODE.AD_MAX;
                 for (int i = 0; i < sp_line.Length; i++)
                 {
                     try
@@ -408,10 +423,26 @@ namespace CottonTestWindowDynamic
                         string[] line = sp_line[i].Split(new char[] { ',' });
                         if (line.Length >= 3 && line[0].Length > 0 && line[1].Length > 0 && line[2].Length > 0)
                         {
-                            x1.Points.AddXY(count, double.Parse(line[0]));
-                            x2.Points.AddXY(count, double.Parse(line[1]));
-                            x3.Points.AddXY(count, double.Parse(line[2]));
+                            double xx1 = double.Parse(line[0]),
+                                xx2 = double.Parse(line[1]),
+                                xx3 = double.Parse(line[2]);
+                            x1.Points.AddXY(count, xx1);
+                            x2.Points.AddXY(count, xx2);
+                            x3.Points.AddXY(count, xx3);
                             count++;
+                            if (xx1 > chart1_max)
+                                chart1_max = xx1;
+                            if (xx2 > chart1_max)
+                                chart1_max = xx2;
+                            if (xx1 < chart1_min)
+                                chart1_min = xx1;
+                            if (xx2 < chart1_min)
+                                chart1_min = xx2;
+
+                            if (xx3 > chart2_max)
+                                chart2_max = xx3;
+                            if (xx3 < chart2_min)
+                                chart2_min = xx3;
                         }
                     }
                     catch (Exception ex)
@@ -419,20 +450,32 @@ namespace CottonTestWindowDynamic
                         Console.WriteLine(ex.Message);
                     }
                 }
-                x1.Color = Color.Red;
-                x2.Color = Color.Blue;
-                x3.Color = Color.Green;
-                x1.ChartType = SeriesChartType.FastLine;
-                x2.ChartType = SeriesChartType.FastLine;
-                x3.ChartType = SeriesChartType.FastLine;
-                chart1.Series.Add(x1);
-                chart1.Series.Add(x2);
-                chart2.Series.Add(x3);
-                chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-                chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-                chart2.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
-                chart2.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
-                
+                if (x1.Points.Count > 0)
+                {
+                    x1.Color = Color.Red;
+                    x2.Color = Color.Blue;
+                    x3.Color = Color.Green;
+                    x1.ChartType = SeriesChartType.FastLine;
+                    x2.ChartType = SeriesChartType.FastLine;
+                    x3.ChartType = SeriesChartType.FastLine;
+                    if (chart1_max >= chart1_min)
+                    {
+                        chart1.ChartAreas[0].AxisY.Maximum = chart1_max + 0.1 * (chart1_max - chart1_min) + 1;
+                        chart1.ChartAreas[0].AxisY.Minimum = chart1_min - 0.1 * (chart1_max - chart1_min) - 1;
+                    }
+                    if (chart2_max >= chart2_min)
+                    {
+                        chart2.ChartAreas[0].AxisY.Maximum = chart2_max + 0.1 * (chart2_max - chart2_min) + 1;
+                        chart2.ChartAreas[0].AxisY.Minimum = chart2_min - 0.1 * (chart2_max - chart2_min) - 1;
+                    }
+                    chart1.Series.Add(x1);
+                    chart1.Series.Add(x2);
+                    chart2.Series.Add(x3);
+                    chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                    chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+                    chart2.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+                    chart2.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+                }
             }
             catch (Exception ex)
             {

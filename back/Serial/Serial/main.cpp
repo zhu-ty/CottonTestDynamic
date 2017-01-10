@@ -165,21 +165,14 @@ int CapCallBack(PvImage* pData, void* pUserData)
 				mMutex->unlock();
 				if (recording == -1)
 					recording = 1;
-				if (WAY == 0 && val == THR)
-					recording = (j % 2 == 0) ? 1 : -1;
+				else if (WAY == 0 && val == THR)
+					recording = (j % 2 == 0) ? -1 : 1;
 				else if (WAY == 1 && val > THR)
-					recording = (j % 2 == 0) ? 1 : -1;
+					recording = (j % 2 == 0) ? -1 : 1;
 				else if (WAY == 2 && val < THR)
-					recording = (j % 2 == 0) ? 1 : -1;
+					recording = (j % 2 == 0) ? -1 : 1;
 			}
 		}
 	}
-
-
-
-	mMutex->lock();
-	//uint real_avg = max(min(DATA_WIDTH * DATA_HEIGHT / (RAW_DATA_LENTH / 2), data_pack->avg),1);
-	//data_pack->avg = real_avg;
-	mMutex->unlock();
 	return true;
 }

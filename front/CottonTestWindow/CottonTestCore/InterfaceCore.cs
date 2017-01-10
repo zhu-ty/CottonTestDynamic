@@ -716,7 +716,7 @@ namespace CottonTestCoreDynamic
                     else if (method == "samp")
                     {
                         ret.Key.Add(data[i * 2]);
-                        ret.Key.Add(data[i * 2 + 1]);
+                        ret.Value.Add(data[i * 2 + 1]);
                     }
                 }
             }

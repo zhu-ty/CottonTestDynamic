@@ -75,6 +75,8 @@ namespace CottonTestWindowDynamic
                     textBoxSamp.ReadOnly = true;
                     checkBoxSamp.Enabled = false;
 
+                    textBoxoffset.ReadOnly = true;
+
                     ButtonStartStop.Text = "停止";
 
                     TimerData.Enabled = true;
@@ -89,6 +91,8 @@ namespace CottonTestWindowDynamic
                     
                     textBoxSamp.ReadOnly = false;
                     checkBoxSamp.Enabled = true;
+
+                    textBoxoffset.ReadOnly = false;
 
                     ButtonStartStop.Text = "开始";
 
@@ -189,10 +193,17 @@ namespace CottonTestWindowDynamic
                 //textBoxInfo.Text += data2.Key[data2.Value.Count - 1] + "," + data2.Value[data2.Value.Count - 1].ToString() + "," +
                 //        ((int)data2.Key[data2.Value.Count - 1] - (int)data2.Value[data2.Value.Count - 1]).ToString() + "\r\n";
 
+                int offset;
+                if (!int.TryParse(textBoxoffset.Text, out offset))
+                    offset = 0;
+
                 for (int i = 0; i < data2.Value.Count; i++)
                 {
-                    s += data2.Key[i].ToString() + "," + data2.Value[i].ToString() + "," +
-                        ((int)data2.Key[i] - (int)data2.Value[i]).ToString() + "\r\n";
+                    if ((i - offset) >= 0 && (i - offset) < data2.Value.Count)
+                    {
+                        s += data2.Key[i - offset].ToString() + "," + data2.Value[i].ToString() + "," +
+                            ((int)data2.Key[i - offset] - (int)data2.Value[i]).ToString() + "\r\n";
+                    }
                 }
                 textBoxInfo.Text = s;
             }

@@ -117,6 +117,8 @@
             this.textBoxSamp = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
             this.checkBoxSamp = new System.Windows.Forms.CheckBox();
+            this.textBoxoffset = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -895,7 +897,7 @@
             this.textBoxTHR.Name = "textBoxTHR";
             this.textBoxTHR.Size = new System.Drawing.Size(93, 22);
             this.textBoxTHR.TabIndex = 90;
-            this.textBoxTHR.Text = "4000";
+            this.textBoxTHR.Text = "200";
             // 
             // label28
             // 
@@ -914,7 +916,7 @@
             this.textBoxCMP.Name = "textBoxCMP";
             this.textBoxCMP.Size = new System.Drawing.Size(102, 22);
             this.textBoxCMP.TabIndex = 92;
-            this.textBoxCMP.Text = "1";
+            this.textBoxCMP.Text = "2";
             // 
             // label29
             // 
@@ -977,11 +979,32 @@
             this.checkBoxSamp.Text = "平均";
             this.checkBoxSamp.UseVisualStyleBackColor = true;
             // 
+            // textBoxoffset
+            // 
+            this.textBoxoffset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxoffset.Location = new System.Drawing.Point(779, 53);
+            this.textBoxoffset.Name = "textBoxoffset";
+            this.textBoxoffset.Size = new System.Drawing.Size(93, 22);
+            this.textBoxoffset.TabIndex = 99;
+            this.textBoxoffset.Text = "0";
+            // 
+            // label32
+            // 
+            this.label32.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(706, 56);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(75, 16);
+            this.label32.TabIndex = 98;
+            this.label32.Text = "传感器1偏移";
+            // 
             // CottonTestWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(884, 635);
+            this.Controls.Add(this.textBoxoffset);
+            this.Controls.Add(this.label32);
             this.Controls.Add(this.checkBoxSamp);
             this.Controls.Add(this.textBoxSamp);
             this.Controls.Add(this.label31);
@@ -1158,6 +1181,8 @@
         private System.Windows.Forms.TextBox textBoxSamp;
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.CheckBox checkBoxSamp;
+        private System.Windows.Forms.TextBox textBoxoffset;
+        private System.Windows.Forms.Label label32;
     }
 }
 

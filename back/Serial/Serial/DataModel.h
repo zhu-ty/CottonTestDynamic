@@ -19,9 +19,9 @@ struct RawDataPack
 	uint data_len = 20000;
 	//std::queue<std::vector<unsigned short>> data_queue;
 	std::vector<ushort> data;
-	ushort threshold = 4000;
+	ushort threshold = 200;
 	//0 : == threshold
 	//1 : > threshold
 	//2 : < threshold
-	ushort compare_way = 1;
+	ushort compare_way = 2;
 };

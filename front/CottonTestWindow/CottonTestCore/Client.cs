@@ -63,7 +63,7 @@ namespace CottonTestCoreDynamic
                 byte[] rec_buf = new byte[data_len];
                 socket.Receive(rec_buf);
                 if (rec_buf[0] != 'R' || rec_buf[1] != 'E' || rec_buf[2] != 'T')
-                    throw new Exception("[Socket]收到了错误的数据");
+                    throw new Exception("[Socket]收到了错误的数据，小概率事件，请重新连接服务器");
                 ret.data = rec_buf;
                 ret.time = DateTime.Now;
                 //EXTRA
@@ -71,7 +71,7 @@ namespace CottonTestCoreDynamic
                 {
                     var x = BitConverter.ToUInt32(rec_buf, 4);
                     if (x == 0)
-                        throw new Exception("[Socket]服务器端尚未准备好不定长数据");
+                        throw new Exception("[Socket]服务器端尚未准备好不定长数据，请等待服务端处理/采集数据");
                     byte[] extra_buf = new byte[x];
                     socket.Receive(extra_buf);
                     ret.extra_data = new List<byte>(extra_buf);

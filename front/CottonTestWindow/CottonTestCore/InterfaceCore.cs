@@ -391,7 +391,7 @@ namespace CottonTestCoreDynamic
                     return s.sensor_num == sensor_num;
                 });
                 if (sensor == null)
-                    throw new Exception("未找到指定编号的Sensor，指定编号："+sensor_num.ToString());
+                    throw new Exception("未在配置文件中找到编号为"+ sensor_num.ToString() + "的Sensor");
                 return TEMPERATUE.cal_by_pts(BitConverter.ToUInt32(re.data, 8), sensor.temperature_paras);
             }
         }

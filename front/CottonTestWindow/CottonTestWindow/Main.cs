@@ -194,6 +194,7 @@ namespace CottonTestWindowDynamic
                 //        ((int)data2.Key[data2.Value.Count - 1] - (int)data2.Value[data2.Value.Count - 1]).ToString() + "\r\n";
 
                 int offset;
+                
                 if (!int.TryParse(textBoxoffset.Text, out offset))
                     offset = 0;
 

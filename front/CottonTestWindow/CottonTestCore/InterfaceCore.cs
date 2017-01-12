@@ -9,9 +9,15 @@ using System.IO;
 
 namespace CottonTestCoreDynamic
 {
+    /// <summary>
+    /// 封装了整个实验的一些常数和与服务端通信（按功能）的一些函数
+    /// </summary>
     public class InterfaceCore
     {
         public const double UNDEF = 9999999;
+        /// <summary>
+        /// 温度相关
+        /// </summary>
         public static class TEMPERATUE
         {
             public const double VREF_R = 1.2;
@@ -103,8 +109,11 @@ namespace CottonTestCoreDynamic
                 return ret;
             }
 
-            //TODO:利用电压关系直线计算
-
+            /// <summary>
+            /// 最小二乘法拟合直线
+            /// </summary>
+            /// <param name="pts"></param>
+            /// <returns></returns>
             public static List<double> cal_line(List<PointF> pts)
             {
                 List<double> ret = new List<double>();
@@ -194,6 +203,9 @@ namespace CottonTestCoreDynamic
             }
 
         }
+        /// <summary>
+        /// 传感器相关
+        /// </summary>
         public static class PHOTODIODE
         {
             public const double VREF_AD = 3.0;
@@ -210,6 +222,12 @@ namespace CottonTestCoreDynamic
             public const int AMP3_RL_STEP_MAX = 16;
             public const double SPLIT_RATIO = 0.5;
 
+            /// <summary>
+            /// 实际上已经不使用了
+            /// </summary>
+            /// <param name="ad_output"></param>
+            /// <param name="amp3_rl"></param>
+            /// <returns></returns>
             public static double cal(long ad_output, double amp3_rl = 10)
             {
                 if (amp3_rl <= 0 || ad_output >= AD_MAX || amp3_rl >= AMP3_RL_MAX)
@@ -505,7 +523,7 @@ namespace CottonTestCoreDynamic
         }
 
         /// <summary>
-        /// 获取/设置触发状态
+        /// 获取/设置触发状态（未使用）
         /// </summary>
         /// <param name="set"></param>
         /// <param name="trigger"></param>
@@ -608,7 +626,7 @@ namespace CottonTestCoreDynamic
         /// <summary>
         /// 获取/设置C++层比较方式
         /// <para>cmp:</para>
-        /// <para>0:相等,1:小于,2:大于</para>
+        /// <para>0:相等,1:大于,2:小于</para>
         /// </summary>
         public uint GetSetCmp(bool set = false, uint cmp = 1)
         {

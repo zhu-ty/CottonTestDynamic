@@ -12,6 +12,8 @@ example/
 *.mov
 *.opendb
 
+data.txt
+
 # User-specific files
 *.suo
 *.user

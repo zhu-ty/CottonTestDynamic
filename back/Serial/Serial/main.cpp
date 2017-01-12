@@ -93,6 +93,12 @@ int CapCallBack(PvImage* pData, void* pUserData)
 			if (recording == 1)
 			{
 				data_temp.push_back(val);
+				//TODO:目前是所有采集的数据（即被recording到的数据）全部保存到data.txt文件中
+				//     未来应当由用户选择保存时间点并给文件赋不同的名字
+
+				//可用的方案：
+				//1.保存改为C#层做
+				//2.由C#传入保存开始和结束标识符，保存加入日期作为文件名字符串
 				fprintf(out, "%d ", val);
 				mMutex->lock();
 				uint LEN = data_pack->data_len;
@@ -101,6 +107,7 @@ int CapCallBack(PvImage* pData, void* pUserData)
 				if (data_temp.size() >= LEN)//recording end
 				{
 					recording = 0;
+					//TODO:与保存相关的修改，参见上一个TODO
 					fprintf(out, "\n");
 					if (data_queue.size() >= MAX_QUEUE_AVG_LEN)//queue is full
 					{

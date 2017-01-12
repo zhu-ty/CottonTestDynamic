@@ -13,6 +13,8 @@ const int DATA_HEIGHT = 100;
 #define CAMERA_MODE_ENABLE
 #define SERVER_MODE_ENABLE
 
+//Server与主函数回调之间的共享内存包
+//请注意加锁
 struct RawDataPack
 {
 	uint avg = 10;

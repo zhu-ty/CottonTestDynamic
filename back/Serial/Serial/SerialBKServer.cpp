@@ -196,7 +196,7 @@ void SerialBKServer::CommunicateThread(LPVOID lparam)
 				char buffer_tmp2[4];
 				intToByte(_rdp->data.size() * 2, buffer_tmp2);
 				memcpy(buffer_send + 4, buffer_tmp2, 4);
-				extra_data_lenth = _rdp->data.size();//in short lenth
+				extra_data_lenth = _rdp->data.size();//in short format lenth
 			}
 
 			if (suc == 0 && buffer_send[3] == 'X')

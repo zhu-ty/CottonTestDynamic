@@ -349,7 +349,7 @@ namespace CottonTestCoreDynamic
             for (int i = 0; i < sensors.Count; i++)
             {
                 if (sensors[i].temperature_points.Count < 2)
-                    throw new Exception("传感器（编号："+sensors[i].sensor_num.ToString()+"）没有足够的数据点");
+                    throw new Exception("传感器（编号："+sensors[i].sensor_num.ToString()+"）没有足够的数据点，请检查config文件");
                 sensors[i].temperature_paras = TEMPERATUE.cal_line(sensors[i].temperature_points);
             }
             return;
@@ -376,7 +376,7 @@ namespace CottonTestCoreDynamic
         public Client.ReceiveEventArgs WriteReadReg(uint address, bool read = true, uint value = 0)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             to_send.Add(new byte[] { (read)?(byte)'G':(byte)'S', (byte)'E', (byte)'T', (byte)'X' });
             to_send.Add(BitConverter.GetBytes(address));
@@ -384,7 +384,7 @@ namespace CottonTestCoreDynamic
             to_send.Add(BitConverter.GetBytes(0));
             var re = c.send_and_receive_sync(Client.byte_connect(to_send));
             if (BitConverter.ToUInt32(re.data, 4) == 0)
-                throw new Exception("读写寄存器失败");
+                throw new Exception("读写寄存器失败，可以尝试重新上一次的操作，这可能是由于FPGA小概率读写失败导致的。");
             print_rev(re);
             return re;
         }
@@ -397,7 +397,7 @@ namespace CottonTestCoreDynamic
         public double GetTemperature(int num, int sensor_num = -1)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             uint address = 0xff71 + (uint)num;
             var re = WriteReadReg(address);
             if (sensor_num == -1)
@@ -409,7 +409,7 @@ namespace CottonTestCoreDynamic
                     return s.sensor_num == sensor_num;
                 });
                 if (sensor == null)
-                    throw new Exception("未在配置文件中找到编号为"+ sensor_num.ToString() + "的Sensor");
+                    throw new Exception("未在配置文件中找到编号为"+ sensor_num.ToString() + "的Sensor，请检查config文件和填写的传感器编号");
                 return TEMPERATUE.cal_by_pts(BitConverter.ToUInt32(re.data, 8), sensor.temperature_paras);
             }
         }
@@ -424,7 +424,7 @@ namespace CottonTestCoreDynamic
         public double GetSetTemperature(int num, bool set = false, double temperature = -20)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器，尝试连接至服务器");
             uint address = 0xff73 + (uint)num;
             Client.ReceiveEventArgs re;
             if (set)
@@ -444,7 +444,7 @@ namespace CottonTestCoreDynamic
         public bool GetSetCooler(int num, bool set = false, bool open = true)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器，尝试连接至服务器");
             uint address = 0xff75 + (uint)num;
             Client.ReceiveEventArgs re;
             if (set)
@@ -466,7 +466,7 @@ namespace CottonTestCoreDynamic
             int value = PHOTODIODE.AMP3_RL_STEP_MAX, int MAX_VALUE = PHOTODIODE.AMP3_RL_STEP_MAX)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             if (value > MAX_VALUE)
                 throw new Exception("设置的电阻值超过了能提供的最大值");
             if (value < 0)
@@ -491,7 +491,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetPeriod(bool set = false, int freq = 100)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             uint address = 0xff79;
             Client.ReceiveEventArgs re;
             if (set)
@@ -512,7 +512,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetWidth(bool set = false, int width = 80)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             uint address = 0xff80;
             Client.ReceiveEventArgs re;
             if (set)
@@ -531,7 +531,7 @@ namespace CottonTestCoreDynamic
         public bool GetSetTrigger(bool set = false, bool trigger = true)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             uint address = 0xff81;
             Client.ReceiveEventArgs re;
             if (set)
@@ -550,7 +550,7 @@ namespace CottonTestCoreDynamic
         {
             throw new Exception("[GetData]动态实验中此函数已经废弃");
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             to_send.Add(new byte[] { (byte)'R', (byte)'A', (byte)'W', (byte)'X' });
             to_send.Add(BitConverter.GetBytes(0));
@@ -575,7 +575,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetAvg(bool set = false, uint avg = 10)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             if (set)
             {
@@ -602,7 +602,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetThr(bool set = false, uint thr = 4000)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             if (set)
             {
@@ -631,7 +631,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetCmp(bool set = false, uint cmp = 1)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             if (set)
             {
@@ -658,7 +658,7 @@ namespace CottonTestCoreDynamic
         public uint GetSetLen(bool set = false, uint len = 400)
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             if (set)
             {
@@ -686,7 +686,7 @@ namespace CottonTestCoreDynamic
         public List<short> GetLastAvgData()
         {
             if (!connected)
-                throw new Exception("服务器未连接");
+                throw new Exception("服务器未连接，尝试连接至服务器");
             List<byte[]> to_send = new List<byte[]>();
             to_send.Add(new byte[] { (byte)'D', (byte)'A', (byte)'T', (byte)'X' });
             to_send.Add(BitConverter.GetBytes(0));
